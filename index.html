@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foot 90</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: #0a0a0a; color: #fff; }
+        a { text-decoration: none; color: inherit; }
+
+        .navbar {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 15px 20px;
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .logo { font-size: 2rem; font-weight: 900; }
+        .logo .f { color: #00e676; }
+        .logo .n { background: #e53935; padding: 2px 10px; border-radius: 8px; }
+        .nav-links { display: flex; list-style: none; gap: 25px; }
+        .nav-links a { color: #ccc; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; }
+        .nav-links a:hover { color: #00e676; }
+        .burger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .burger span { width: 25px; height: 3px; background: #fff; border-radius: 3px; }
+
+        .ticker {
+            background: #e53935; padding: 10px 0; overflow: hidden;
+        }
+        .ticker-content {
+            display: flex; animation: scroll 20s linear infinite; white-space: nowrap;
+        }
+        .ticker-content span { padding: 0 50px; font-weight: 700; font-size: 0.9rem; }
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .hero {
+            height: 450px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)),
+                        url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200') center/cover;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .hero h1 { font-size: 3rem; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; }
+        .hero h1 span { color: #00e676; }
+        .hero p { font-size: 1.2rem; color: #ccc; margin-bottom: 25px; }
+        .btn {
+            display: inline-block; padding: 14px 35px; background: #00e676; color: #000;
+            font-weight: 900; border-radius: 50px; text-transform: uppercase;
+            border: none; cursor: pointer; font-size: 1rem;
+        }
+        .btn:hover { background: #00c853; transform: translateY(-3px); }
+
+        .section { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
+        .section-title {
+            font-size: 1.8rem; font-weight: 900; margin-bottom: 30px;
+            text-transform: uppercase; border-left: 5px solid #00e676; padding-left: 15px;
+        }
+        .section-title span { color: #00e676; }
+
+        .scores-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 20px;
+        }
+        .score-card {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 15px; padding: 25px; text-align: center;
+            border: 1px solid #2a2a4a;
+        }
+        .score-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,230,118,0.1); }
+        .league-name { color: #00e676; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .teams { display: flex; justify-content: space-around; align-items: center; margin: 15px 0; }
+        .team-logo { font-size: 2.5rem; margin-bottom: 8px; }
+        .team-name { font-size: 0.85rem; font-weight: 700; }
+        .score { font-size: 2rem; font-weight: 900; color: #00e676; background: rgba(0,230,118,0.1); padding: 5px 15px; border-radius: 10px; }
+        .match-time { color: #e53935; font-weight: 700; font-size: 0.85rem; margin-top: 10px; }
+        .match-time.live::before { content: '● '; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .news-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px;
+        }
+        .news-card {
+            background: #1a1a2e; border-radius: 15px; overflow: hidden;
+            border: 1px solid #2a2a4a;
+        }
+        .news-card:hover { transform: translateY(-5px); }
+        .news-img { width: 100%; height: 200px; object-fit: cover; }
+        .news-body { padding: 20px; }
+        .news-category { background: #e53935; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .news-body h3 { margin: 12px 0 8px; font-size: 1.1rem; }
+        .news-body p { color: #999; font-size: 0.9rem; }
+        .news-meta { display: flex; justify-content: space-between; margin-top: 12px; color: #666; font-size: 0.8rem; }
+
+        .standings-table { width: 100%; border-collapse: collapse; background: #1a1a2e; border-radius: 15px; overflow: hidden; }
+        .standings-table th { background: #16213e; padding: 15px; text-align: left; color: #00e676; font-size: 0.85rem; text-transform: uppercase; }
+        .standings-table td { padding: 12px 15px; border-bottom: 1px solid #2a2a4a; }
+        .standings-table tr:hover { background: rgba(0,230,118,0.05); }
+        .rank { font-weight: 900; color: #00e676; }
+        .champion { border-left: 3px solid #00e676; }
+        .europa { border-left: 3px solid #2196F3; }
+        .relegation { border-left: 3px solid #e53935; }
+
+        .newsletter {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            border-radius: 20px; padding: 50px; text-align: center;
+            max-width: 1200px; margin: 40px auto;
+        }
+        .newsletter h2 { font-size: 1.8rem; margin-bottom: 10px; }
+        .newsletter p { color: #999; margin-bottom: 20px; }
+        .newsletter-form { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .newsletter-form input {
+            padding: 14px 25px; border-radius: 50px; border: 2px solid #2a2a4a;
+            background: #0a0a0a; color: #fff; font-size: 1rem; width: 350px; outline: none;
+        }
+        .newsletter-form input:focus { border-color: #00e676; }
+
+        .footer { background: #0d0d1a; padding: 50px 20px 20px; margin-top: 60px; }
+        .footer-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;
+        }
+        .footer h3 { color: #00e676; margin-bottom: 20px; }
+        .footer ul { list-style: none; }
+        .footer ul li { margin-bottom: 10px; }
+        .footer ul a { color: #888; }
+        .footer ul a:hover { color: #00e676; }
+        .social-links { display: flex; gap: 15px; margin-top: 15px; }
+        .social-links a {
+            width: 45px; height: 45px; background: #1a1a2e; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+        .social-links a:hover { background: #00e676; color: #000; }
+        .footer-bottom {
+            max-width: 1200px; margin: 40px auto 0; padding-top: 20px;
+            border-top: 1px solid #2a2a4a; text-align: center; color: #555; font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; position: absolute; top: 60px; left: 0; right: 0; background: #1a1a2e; flex-direction: column; padding: 20px; gap: 15px; }
+            .nav-links.active { display: flex; }
+            .burger { display: flex; }
+            .hero h1 { font-size: 2rem; }
+            .hero { height: 300px; }
+            .news-grid { grid-template-columns: 1fr; }
+            .newsletter { padding: 30px 20px; }
+            .newsletter-form input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo"><span class="f">FOOT</span> <span class="n">90</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#scores">Scores</a></li>
+            <li><a href="#news">Actualites</a></li>
+            <li><a href="#classement">Classement</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="burger" onclick="document.getElementById('navLinks').classList.toggle('active')">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <div class="ticker">
+        <div class="ticker-content">
+            <span>⚡ BREAKING : Mbappe inscrit un triple historique !</span>
+            <span>🔥 Mercato : Un transfert record se prepare</span>
+            <span>🏆 Ligue des Champions : Les resultats de la soiree</span>
+            <span>⚽ CAN 2025 : Le tirage au sort devoile</span>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div>
+            <h1>Bienvenue sur <span>Foot 90</span></h1>
+            <p>Votre source #1 pour l'actualite football en temps reel</p>
+            <a href="#news" class="btn">🔥 Dernieres Actus</a>
+        </div>
+    </section>
+
+    <section class="section" id="scores">
+        <h2 class="section-title"><span>Scores</span> en direct</h2>
+        <div class="scores-grid">
+            <div class="score-card">
+                <div class="league-name">Ligue 1</div>
+                <div class="teams">
+                    <div><div class="team-logo">🔴🔵</div><div class="team-name">PSG</div></div>
+                    <div class="score">3 - 1</div>
+                    <div><div class="team-logo">🟢</div><div class="team-name">ASSE</div></div>
+                </div>
+                <div class="match-time live">67' EN COURS</div>
+            </div>
+            <div class="score-card">
+                <div class="league-name">Liga</div>
+                <div class="teams">
+                    <div><div class="team-logo">⚪</div><div class="team-name">Real Madrid</div></div>
+                    <div class="score">2 - 2</div>
+                    <div><div class="team-logo">🔵🔴</div><div class="team-name">Barcelone</div></div>
+                </div>
+                <div class="match-time live">82' EN COURS</div>
+            </div>
+            <div class="score-card">
+                <div class="league-name">Premier League</div>
+                <div class="teams">
+                    <div><div class="team-logo">🔴</div><div class="team-name">Liverpool</div></div>
+                    <div class="score">1 - 0</div>
+                    <div><div class="team-logo">🔵</div><div class="team-name">Man City</div></div>
+                </div>
+                <div class="match-time live">45' MI-TEMPS</div>
+            </div>
+            <div class="score-card">
+                <div class="league-name">Serie A</div>
+                <div class="teams">
+                    <div><div class="team-logo">⚫⚪</div><div class="team-name">Juventus</div></div>
+                    <div class="score">0 - 2</div>
+                    <div><div class="team-logo">🔴⚫</div><div class="team-name">AC Milan</div></div>
+                </div>
+                <div class="match-time">Termine</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="news">
+        <h2 class="section-title"><span>Dernieres</span> Actualites</h2>
+        <div class="news-grid">
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=600" alt="News" class="news-img">
+                <div class="news-body">
+                    <span class="news-category">Transfert</span>
+                    <h3>Mercato : Un attaquant star en route vers le PSG</h3>
+                    <p>Les negociations avancent bien pour le transfert le plus attendu de cet hiver...</p>
+                    <div class="news-meta">
+                        <span><i class="far fa-clock"></i> Il y a 2h</span>
+                        <span><i class="far fa-comment"></i> 128 com.</span>
+                    </div>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600" alt="News" class="news-img">
+                <div class="news-body">
+                    <span class="news-category">Champions League</span>
+                    <h3>Ligue des Champions : Soiree folle en huitiemes !</h3>
+                    <p>Retour sur tous les resultats et les qualifies pour les quarts de finale...</p>
+                    <div class="news-meta">
+                        <span><i class="far fa-clock"></i> Il y a 5h</span>
+                        <span><i class="far fa-comment"></i> 256 com.</span>
+                    </div>
+                </div>
+            </article>
+            <article class="news-card">
+                <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600" alt="News" class="news-img">
+                <div class="news-body">
+                    <span class="news-category">Ballon d'Or</span>
+                    <h3>Ballon d'Or 2025 : Les 5 favoris devoiles</h3>
+                    <p>Qui succedera au palmares ? Analyse des candidats les plus serieux...</p>
+                    <div class="news-meta">
+                        <span><i class="far fa-clock"></i> Il y a 1 jour</span>
+                        <span><i class="far fa-comment"></i> 89 com.</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="classement">
+        <h2 class="section-title"><span>Classement</span> Ligue 1</h2>
+        <div style="overflow-x:auto;">
+            <table class="standings-table">
+                <thead>
+                    <tr><th>#</th><th>Equipe</th><th>MJ</th><th>V</th><th>N</th><th>D</th><th>Pts</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="champion"><td class="rank">1</td><td>🔴🔵 PSG</td><td>15</td><td>13</td><td>1</td><td>1</td><td><strong>40</strong></td></tr>
+                    <tr class="champion"><td class="rank">2</td><td>🟠 Marseille</td><td>15</td><td>10</td><td>3</td><td>2</td><td><strong>33</strong></td></tr>
+                    <tr class="europa"><td class="rank">3</td><td>🔴 Monaco</td><td>15</td><td>9</td><td>4</td><td>2</td><td><strong>31</strong></td></tr>
+                    <tr class="europa"><td class="rank">4</td><td>🔴 Lille</td><td>15</td><td>8</td><td>5</td><td>2</td><td><strong>29</strong></td></tr>
+                    <tr><td class="rank">5</td><td>🟣 Lyon</td><td>15</td><td>8</td><td>3</td><td>4</td><td><strong>27</strong></td></tr>
+                    <tr class="relegation"><td class="rank">16</td><td>🟡 Nantes</td><td>15</td><td>3</td><td>4</td><td>8</td><td><strong>13</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="newsletter" id="contact">
+        <h2>📬 Ne ratez jamais un match !</h2>
+        <p>Inscrivez-vous pour recevoir les resultats en temps reel</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); document.getElementById('msg').style.display='block'; this.reset();">
+            <input type="email" placeholder="Votre adresse email..." required>
+            <button type="submit" class="btn">S'inscrire</button>
+        </form>
+        <p id="msg" style="color:#00e676; margin-top:15px; display:none;">✅ Merci ! Vous etes inscrit !</p>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <h3>⚽ Foot 90</h3>
+                <p style="color:#888; font-size:0.9rem;">Votre destination #1 pour toute l'actualite du football mondial.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3>Competitions</h3>
+                <ul>
+                    <li><a href="#">Ligue 1</a></li>
+                    <li><a href="#">Premier League</a></li>
+                    <li><a href="#">La Liga</a></li>
+                    <li><a href="#">Champions League</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li>📧 contact@foot90.com</li>
+                    <li>📍 Paris, France</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Foot 90 - Tous droits reserves</p>
+        </div>
+    </footer>
+
+</body>
+</html>
